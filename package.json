@@ -19,7 +19,8 @@
   },
   "workspaces": [
     "libs/*",
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "dependencies": {}
 }
