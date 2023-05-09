@@ -1,4 +1,5 @@
-import { BaseModel, HasOne, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, HasOne, column, hasOne, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import Dish from './Dish'
 
 export default class DishCategory extends BaseModel {
   @column({ isPrimary: true })
@@ -12,4 +13,7 @@ export default class DishCategory extends BaseModel {
   
   @hasOne(() => DishCategory)
   public categoryParent: HasOne<typeof DishCategory>
+
+  @hasMany(() => Dish)
+  public dishes: HasMany<typeof Dish>
 }

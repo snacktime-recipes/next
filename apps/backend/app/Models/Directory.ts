@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, ManyToMany, column, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import ProfileDish from './ProfileDish'
 
 export default class Directory extends BaseModel {
   @column({ isPrimary: true })
@@ -19,4 +20,9 @@ export default class Directory extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
+
+  @manyToMany(() => ProfileDish, {
+    pivotTable: 'ProfileDishDirectory',
+  })
+  public profileDishes: ManyToMany<typeof ProfileDish>
 }

@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasOne, hasOne, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasOne, hasOne, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import RecipeStep from './RecipeStep'
 import Product from './Product'
 import Dish from './Dish'
+import RecipeProductAlternative from './RecipeStepProductAlternative'
 
 export default class RecipeStepProduct extends BaseModel {
   @column({ isPrimary: true })
@@ -25,4 +26,7 @@ export default class RecipeStepProduct extends BaseModel {
 
   @hasOne(() => Dish)
   public dishIngredient: HasOne<typeof Dish> // | null
+
+  @hasMany(() => RecipeProductAlternative)
+  public recipeProductsAlternative: HasMany<typeof RecipeProductAlternative>
 }

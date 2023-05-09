@@ -1,6 +1,8 @@
-import { BaseModel, hasOne, HasOne, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, hasOne, HasOne, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
 import Product from './Product'
+import RestOfProduct from './RestOfProduct'
+import ThrownIngredient from './ThrownIngredient'
 
 export default class ProfileProduct extends BaseModel {
   @column({ isPrimary: true })
@@ -11,4 +13,10 @@ export default class ProfileProduct extends BaseModel {
   
   @hasOne(() => Profile)
   public profile: HasOne<typeof Profile>
+
+  @hasMany(() => RestOfProduct)
+  public restOfProducts: HasMany<typeof RestOfProduct>
+
+  @hasMany(() => ThrownIngredient)
+  public thrownIngredients: HasMany<typeof ThrownIngredient>
 }
