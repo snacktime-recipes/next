@@ -13,8 +13,8 @@ export default class RestOfDish extends BaseModel {
   @column()
   public count: number
 
-  @hasOne(() => MeasureUnit)
-  public measureUnit: HasOne<typeof MeasureUnit>
+  @belongsTo(() => MeasureUnit)
+  public measureUnit: BelongsTo<typeof MeasureUnit>
 
   @belongsTo(() => ProfileDish)
   public dish: BelongsTo<typeof ProfileDish>

@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasOne, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import ProductCategory from './ProductCategory'
 
 export default class Product extends BaseModel {
@@ -12,8 +12,8 @@ export default class Product extends BaseModel {
   @column()
   public description?: string
 
-  @hasOne(() => ProductCategory)
-  public category: HasOne<typeof ProductCategory>
+  @belongsTo(() => ProductCategory)
+  public category: BelongsTo<typeof ProductCategory>
   
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
