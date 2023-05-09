@@ -1,14 +1,18 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasMany, ManyToMany, column, hasMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { attachment } from '@ioc:Adonis/Addons/AttachmentLite'
+import { AttachmentContract } from '@ioc:Adonis/Addons/AttachmentLite'
 import Dish from './Dish'
-import Product from './Product'
+import Directory from './Directory'
+import ProfileDish from './ProfileDish'
+import ProfileProduct from './ProfileProduct'
 
 export default class Profile extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public methodAuthentification: number // хз зачем число, Мичкивський сказал, мейби переделать в boolean?
+  public authenticationMethod: string
 
   @column()
   public login: string
@@ -20,31 +24,29 @@ export default class Profile extends BaseModel {
   public name: string
 
   @column()
-  public lastName: string
+  public lastName?: string
 
   @column()
-  public phone: string
+  public phone?: string
 
-  @column()
-  public avatar: string // хз как буим реализовывать
+  @attachment()
+  public avatar: AttachmentContract
+
+  @hasMany(() => Dish)
+  public profilesDishes: HasMany<typeof Dish> 
+
+  @hasMany(() => Directory)
+  public directories: HasMany<typeof Directory>
+
+  @hasMany(() => ProfileDish)
+  public dishes: HasMany<typeof ProfileDish>
+
+  @hasMany(() => ProfileProduct)
+  public products: HasMany<typeof ProfileProduct>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
-  @hasMany(() => Dish)
-  public profilesDishes: HasMany<typeof Dish> 
-
-  @manyToMany(() => Dish, {
-    pivotTable: 'ProfileDishDirectory',
-  })
-  public dishes: ManyToMany<typeof Dish>
-
-  @manyToMany(() => Product, {
-    pivotTable: 'ProfileProduct',
-  })
-  public products: ManyToMany<typeof Product>
-
 }

@@ -1,4 +1,4 @@
-import { BaseModel, HasOne, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
 import ProfileDish from './ProfileDish'
 import Directory from './Directory'
 
@@ -6,9 +6,9 @@ export default class ProfileDishDirectory extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  @hasOne(() => ProfileDish)
-  public profileDish: HasOne<typeof ProfileDish>
+  @belongsTo(() => ProfileDish)
+  public dish: BelongsTo<typeof ProfileDish>
 
-  @hasOne(() => Directory)
-  public directory: HasOne<typeof Directory>
+  @belongsTo(() => Directory)
+  public directory: BelongsTo<typeof Directory>
 }

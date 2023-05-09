@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, hasOne, HasOne, column } from '@ioc:Adonis/Lucid/Orm'
-import MesureUnit from './MesureUnit'
+import { BaseModel, column, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
+import MeasureUnit from './MeasureUnit'
 import ProfileDish from './ProfileDish'
 
-export default class CoockedDish extends BaseModel {
+export default class CookedDish extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -13,15 +13,15 @@ export default class CoockedDish extends BaseModel {
   @column()
   public count: number
 
+  @belongsTo(() => MeasureUnit)
+  public measureUnit: BelongsTo<typeof MeasureUnit>
+
+  @belongsTo(() => ProfileDish)
+  public dish: BelongsTo<typeof ProfileDish>
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
-  @hasOne(() => MesureUnit)
-  public mesureUnit: HasOne<typeof MesureUnit>
-
-  @hasOne(() => ProfileDish)
-  public profileDish: HasOne<typeof ProfileDish>
 }

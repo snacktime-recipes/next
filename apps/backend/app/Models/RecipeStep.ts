@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, HasOne, ManyToMany, column, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasMany, ManyToMany, belongsTo, column, hasMany, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Dish from './Dish'
-import Product from './Product'
+import RecipeStepProduct from './RecipeStepProduct'
 
 export default class RecipeStep extends BaseModel {
   @column({ isPrimary: true })
@@ -11,7 +11,7 @@ export default class RecipeStep extends BaseModel {
   public name: string
 
   @column()
-  public fullName: string
+  public stepNumber: number
 
   @column()
   public activeTime: DateTime
@@ -19,11 +19,14 @@ export default class RecipeStep extends BaseModel {
   @column()
   public passiveTime: DateTime
 
-  @hasOne(() => Dish)
-  public dish: HasOne<typeof Dish>
+  @belongsTo(() => Dish)
+  public dish: BelongsTo<typeof Dish>
 
-  @manyToMany(() => Product, {
-    pivotTable: 'RecipeStepProduct',
+  @hasMany(() => RecipeStepProduct, {
+    onQuery(query) {
+      query.preload('dishIngredient');
+      query.preload('productIngredient');
+    }
   })
-  public recipeSteps: ManyToMany<typeof Product>
+  public products: HasMany<typeof RecipeStepProduct>
 }

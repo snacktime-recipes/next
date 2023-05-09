@@ -1,9 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, hasOne, HasOne, column, hasMany, HasMany, manyToMany, ManyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
 import DishCategory from './DishCategory'
 import RecipeStep from './RecipeStep'
-import RecipeStepProduct from './RecipeStepProduct'
+import Product from './Product'
 
 export default class Dish extends BaseModel {
   @column({ isPrimary: true })
@@ -13,10 +13,7 @@ export default class Dish extends BaseModel {
   public name: string
 
   @column()
-  public fullName: string
-
-  @column()
-  public description: string
+  public description?: string
 
   @column()
   public cookTime: number
@@ -28,7 +25,24 @@ export default class Dish extends BaseModel {
   public isPrivate: boolean
 
   @column()
-  public isIngridient: boolean
+  public isIngredient: boolean
+
+  @belongsTo(() => Profile, { localKey: 'id' })
+  public author: BelongsTo<typeof Profile>
+
+  @belongsTo(() => DishCategory, { localKey: 'id' })
+  public category: BelongsTo<typeof DishCategory>
+
+  @hasMany(() => RecipeStep)
+  public recipeSteps: HasMany<typeof RecipeStep>
+
+  public async getProducts(): Promise<Array<typeof Product>> {
+    // todo implement
+    // get all recipe steps, recursively fetch all RecipeStepProducts from them and then fetch all
+    // RecipeSteProduct.product and return as an array
+    
+    return [];
+  }
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -36,20 +50,4 @@ export default class Dish extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => Profile)
-  public author: HasOne<typeof Profile>
-
-  @hasOne(() => DishCategory)
-  public dishCategory: HasOne<typeof DishCategory>
-
-  @hasMany(() => RecipeStep)
-  public recipeSteps: HasMany<typeof RecipeStep>
-
-  @hasMany(() => RecipeStepProduct)
-  public recipeStepProducts: HasMany<typeof RecipeStepProduct>
-
-  @manyToMany(() => Profile, {
-    pivotTable: 'ProfileDish',
-  })
-  public profiles: ManyToMany<typeof Profile>
 }

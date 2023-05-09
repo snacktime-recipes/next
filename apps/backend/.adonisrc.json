@@ -21,7 +21,8 @@
     "./providers/AppProvider",
     "@adonisjs/core",
     "./providers/RecipeProvider",
-    "@adonisjs/lucid"
+    "@adonisjs/lucid",
+    "@adonisjs/attachment-lite"
   ],
   "aceProviders": [
     "@adonisjs/repl"

@@ -9,10 +9,10 @@ export default class DishCategory extends BaseModel {
   public name: string
 
   @column()
-  public fullName: string
+  public description?: string
   
   @hasOne(() => DishCategory)
-  public categoryParent: HasOne<typeof DishCategory>
+  public parent: HasOne<typeof DishCategory>
 
   @hasMany(() => Dish)
   public dishes: HasMany<typeof Dish>

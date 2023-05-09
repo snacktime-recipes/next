@@ -1,9 +1,9 @@
-import { BaseModel, HasMany, HasOne, ManyToMany, column, hasMany, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasMany, HasOne, ManyToMany, belongsTo, column, hasMany, hasOne, manyToMany } from '@ioc:Adonis/Lucid/Orm'
 import Dish from './Dish'
 import Profile from './Profile'
 import RestOfDish from './RestOfDish'
 import ThrownIngredient from './ThrownIngredient'
-import CoockedDish from './CoockedDish'
+import CookedDish from './CookedDish'
 import Directory from './Directory'
 
 export default class ProfileDish extends BaseModel {
@@ -11,25 +11,25 @@ export default class ProfileDish extends BaseModel {
   public id: number
 
   @column()
-  public bookmark: boolean
+  public isBookmarked: boolean
 
   @column()
-  public like: boolean
+  public isLiked: boolean
 
-  @hasOne(() => Dish)
-  public dish: HasOne<typeof Dish>
+  @belongsTo(() => Dish)
+  public dish: BelongsTo<typeof Dish>
 
-  @hasOne(() => Profile)
-  public profile: HasOne<typeof Profile>
+  @belongsTo(() => Profile)
+  public profile: BelongsTo<typeof Profile>
 
   @hasMany(() => RestOfDish)
   public restOfDishes: HasMany<typeof RestOfDish>
 
   @hasMany(() => ThrownIngredient)
-  public thrownIngridients: HasMany<typeof ThrownIngredient>
+  public thrownIngredients: HasMany<typeof ThrownIngredient>
 
-  @hasMany(() => CoockedDish)
-  public coockedDishes: HasMany<typeof CoockedDish>
+  @hasMany(() => CookedDish)
+  public coockedDishes: HasMany<typeof CookedDish>
 
   @manyToMany(() => Directory, {
     pivotTable: 'ProfileDishDirectory',
