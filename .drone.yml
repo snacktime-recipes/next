@@ -1,0 +1,25 @@
+kind: pipeline
+type: docker
+name: build_image
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: Get git commit tag
+    image: alpine
+    commands:
+      - apk add git
+      - git rev-parse --short HEAD > .tags
+      - cat .tags
+  - name: Build and push
+    image: plugins/docker
+    settings:
+      dockerfile: apps/backend/Dockerfile
+      registry: git.odzi.dog
+      username:
+        from_secret: REGISTRY_USERNAME
+      password:
+        from_secret: REGISTRY_PASSWORD
+      repo: git.odzi.dog/snacktime/backend
