@@ -1,7 +1,7 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'dishes'
+  protected tableName = 'product_categories'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
@@ -9,21 +9,12 @@ export default class extends BaseSchema {
 
       table.string('name')
       table.text('description').nullable()
-      table.integer('cookTime')
-      table.float('cookDifficulty')
-      table.boolean('IsPrivate')
-      table.boolean('IsIngredient')
-
-      table
-        .integer('author_id')
-        .unsigned()
-        .references('profiles.id')
-        .onDelete('CASCADE')
       
       table
-        .integer('category_id')
+        .integer('parent_category_id')
         .unsigned()
-        .references('dish_categories.id')
+        .nullable()
+        .references('product_categories.id')
         .onDelete('CASCADE')
 
       table.timestamp('created_at', { useTz: true })

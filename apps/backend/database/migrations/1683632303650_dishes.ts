@@ -1,29 +1,31 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'recipe_steps'
+  protected tableName = 'dishes'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
       table.string('name')
-      table.integer('step_number').unsigned()
-      table.float('active_time').unsigned()
-      table.float('passive_time').unsigned()
+      table.text('description').nullable()
+      table.integer('cookTime')
+      table.float('cookDifficulty')
+      table.boolean('isPrivate')
+      table.boolean('isIngredient')
 
       table
-        .integer('dish_id')
+        .integer('author_id')
         .unsigned()
-        .references('dishes.id')
+        .references('profiles.id')
         .onDelete('CASCADE')
       
       table
-        .integer('product_id')
+        .integer('category_id')
         .unsigned()
-        .references('recipe_step_products')
+        .references('dish_categories.id')
         .onDelete('CASCADE')
-      
+
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

@@ -8,7 +8,7 @@ export default class extends BaseSchema {
       table.increments('id').primary()
 
       table.string('name')
-      table.text('description')
+      table.text('description').nullable()
       
       table
         .integer('category_id')

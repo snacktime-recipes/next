@@ -18,8 +18,8 @@ export default class RecipeStepProduct extends BaseModel {
   @belongsTo(() => MeasureUnit)
   public measure: BelongsTo<typeof MeasureUnit>
 
-  @belongsTo(() => RecipeStep)
-  public recipeStep: BelongsTo<typeof RecipeStep>
+  @hasOne(() => RecipeStep)
+  public recipeStep: HasOne<typeof RecipeStep>
 
   @belongsTo(() => Product)
   public productIngredient: BelongsTo<typeof Product> // | null
