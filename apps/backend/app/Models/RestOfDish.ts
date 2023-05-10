@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, hasOne, HasOne, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
 import MeasureUnit from './MeasureUnit'
 import ProfileDish from './ProfileDish'
 
