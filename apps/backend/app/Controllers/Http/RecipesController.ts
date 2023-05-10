@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { CreateNewRecipeDTO } from 'apps/backend/providers/RecipeProvider/types';
+import { CreateNewRecipeDTO } from 'providers/RecipeProvider/types';
 import RecipesProvider from '@ioc:Providers/Recipes';
 
 export default class RecipesController {
