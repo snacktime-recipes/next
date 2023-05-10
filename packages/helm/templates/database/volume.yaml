@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-volume
+spec:
+  resources:
+    requests:
+      storage: 10G
+  volumeMode: Filesystem
+  storageClassName: {{ $.Values.volumes.storageClass }}
+  accessModes:
+    - ReadWriteOnce
