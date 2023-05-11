@@ -18,7 +18,9 @@
 |
 */
 
-import Route from '@ioc:Adonis/Core/Route'
-
-Route.get('/profiles/test', 'ProfilesController.create');
-Route.get('/recipes/test', 'RecipesController.create');
+/*
+|--------------------------------------------------------------------------
+| Internal routes
+|--------------------------------------------------------------------------
+*/
+import './routes/internal/InternalHelpers';
