@@ -1,13 +1,23 @@
-tag: "cc6f736"
+tag: "b15aaa6"
 
 volumes:
   storageClass: "openebs-hostpath"
+
+# -------------------------------------
+# Secret and internal keys
+secrets:
+  appKey: ""
+  internalKeys:
+  - ""
 
 # -------------------------------------
 # Backend
 backend:
   image: git.odzi.dog/snacktime/backend
   replicaCount: 1
+
+  ingress:
+    url: "api.dev.snacktime.recipes"
 
 # -------------------------------------
 # Postgres

@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingresses
+spec:
+  entryPoints:
+  - web
+  - websecure
+  routes:
+    # 
+    # Backend ingress
+    - match: Host(`{{ .Values.backend.ingress.url }}`)
+      kind: Rule
+      services:
+        - name: snacktime-backend
+          port: 80
+  tls:
+    certResolver: "cloudflare"
