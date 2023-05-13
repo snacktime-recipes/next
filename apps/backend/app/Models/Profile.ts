@@ -7,8 +7,9 @@ import Directory from './Directory'
 import ProfileDish from './ProfileDish'
 import ProfileProduct from './ProfileProduct'
 import Hash from '@ioc:Adonis/Core/Hash'
+import { ProfileModel } from '@snacktime/types';
 
-export default class Profile extends BaseModel {
+export default class Profile extends BaseModel implements ProfileModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -19,13 +20,13 @@ export default class Profile extends BaseModel {
   public name: string
 
   @column()
-  public lastName?: string
+  public lastName: string | undefined
 
   @column({ serializeAs: null })
   public password: string
 
   @column()
-  public phone?: string
+  public phone: string | undefined
 
   @attachment()
   public avatar: AttachmentContract

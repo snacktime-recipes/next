@@ -1,15 +1,7 @@
 {
-  "name": "backend",
+  "name": "@snacktime/backend",
+  "private": "true",
   "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "node ace serve --watch",
-    "build": "node ace build --production",
-    "start": "node server.js",
-    "test": "node ace test",
-    "lint": "eslint . --ext=.ts",
-    "format": "prettier --write ."
-  },
   "eslintConfig": {
     "extends": [
       "plugin:adonis/typescriptApp",
@@ -42,6 +34,7 @@
     "@iconify/json": "^2.2.62",
     "@japa/preset-adonis": "^1.2.0",
     "@japa/runner": "^2.5.1",
+    "@snacktime/types": "*",
     "@types/proxy-addr": "^2.0.0",
     "@types/source-map-support": "^0.5.6",
     "adonis-preset-ts": "^2.1.0",

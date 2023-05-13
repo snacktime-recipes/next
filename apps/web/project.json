@@ -1,0 +1,24 @@
+{
+  "name": "web",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/web/src",
+  "projectType": "app",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vite dev",
+        "cwd": "apps/web"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx vite build",
+        "cwd": "apps/web"
+      }
+    }
+  },
+  "tags": []
+}
+    
