@@ -1,6 +1,6 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route
+export default Route
     .group(() => {
         Route.post('/encrypt', 'Internal/InternalHelpers.encrypt');
     })

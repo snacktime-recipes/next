@@ -23,4 +23,4 @@
 | Internal routes
 |--------------------------------------------------------------------------
 */
-import './routes/internal/InternalHelpers';
+import './routes';
