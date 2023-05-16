@@ -29,7 +29,8 @@ export default class RegisterProfileValidator {
     name: schema.string(),
     email: schema.string({}, [
       rules.email(),
-      rules.unique({ table: 'profiles', column: 'email' })
+      rules.unique({ table: 'profiles', column: 'email', caseInsensitive: true }),
+      rules.normalizeEmail({ allLowercase: true })
     ]),
     password: schema.string(),
   

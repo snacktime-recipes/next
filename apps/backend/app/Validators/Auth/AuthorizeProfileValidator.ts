@@ -25,7 +25,8 @@ export default class AuthorizeProfileValidator {
    */
   public schema = schema.create({
     email: schema.string({ trim: true }, [
-      rules.email()
+      rules.email(),
+      rules.normalizeEmail({ allLowercase: true })
     ]),
     password: schema.string(),
   })
