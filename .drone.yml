@@ -6,6 +6,10 @@ platform:
   os: linux
   arch: arm64
 
+trigger:
+  branch:
+    - dev
+
 steps:
   - name: Get git commit tag
     image: alpine
@@ -50,26 +54,3 @@ steps:
 
 depends_on:
   - build_image
-
-# ---
-# kind: pipeline
-# type: docker
-# name: deploy_production
-
-# platform:
-#   os: linux
-#   arch: arm64
-
-# steps:
-#   - name: Trigger snacktime/snacktime.recipes pipeline
-#     image: plugins/downstream
-#     settings:
-#       server: https://drone.odzi.dog
-#       token:
-#         from_secret: DRONE_TOKEN
-#       fork: true
-#       repositories:
-#         - snacktime/snacktime.recipes
-
-# depends_on:
-#   - build_image
