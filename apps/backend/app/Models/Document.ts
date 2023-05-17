@@ -1,28 +1,29 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
-import ProductCategory from './ProductCategory'
 import Profile from './Profile'
 
-export default class Product extends BaseModel {
+export default class Document extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
   @column()
-  public name: string
+  public type: string //purchaced, cooked, thrown
+  
+  @column()
+  public number: number
 
   @column()
-  public description?: string
+  public income: number  // +1 || -1 depence in document type
 
-  @belongsTo(() => ProductCategory)
-  public category: BelongsTo<typeof ProductCategory>
+  @column()
+  public description?: string 
 
-  @belongsTo(() => Profile, { localKey: 'id' })
-  public author: BelongsTo<typeof Profile>
+  @belongsTo(() => Profile)
+  public profile: BelongsTo<typeof Profile>
   
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
-
 }
