@@ -12,8 +12,8 @@ export default class extends BaseSchema {
       table.string('remember_me_token').nullable()
       
       table.string('name', 100)
-      table.string('lastName', 100).nullable()
-      table.string('phone').nullable().checkRegex("/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/")
+      table.string('last_name', 100).nullable()
+      table.string('phone').nullable()
       table.json('avatar')
 
       table.timestamp('created_at', { useTz: true })

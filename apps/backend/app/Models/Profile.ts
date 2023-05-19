@@ -7,7 +7,7 @@ import Directory from './Directory'
 import ProfileDish from './ProfileDish'
 import ProfileProduct from './ProfileProduct'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { ProfileModel } from '@snacktime/types';
+import { ProfileModel, ProfileStatus } from '@snacktime/types';
 
 export default class Profile extends BaseModel implements ProfileModel {
   @column({ isPrimary: true })
@@ -33,6 +33,9 @@ export default class Profile extends BaseModel implements ProfileModel {
 
   @column()
   public rememberMeToken: string | null
+
+  @column()
+  public status: ProfileStatus
 
   @beforeSave()
   public static async hashPassword (profile: Profile) {
