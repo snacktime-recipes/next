@@ -1,3 +1,6 @@
 const config = require("../../tailwind.config.cjs");
 
-module.exports = config;
+module.exports = {
+    ...config,
+    darkMode: 'class'
+};
