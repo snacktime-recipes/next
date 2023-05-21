@@ -20,6 +20,13 @@ backend:
     url: "api.dev.snacktime.recipes"
 
 # -------------------------------------
+# Web
+web:
+  image: git.odzi.dog/snacktime/web
+  ingress:
+    url: "dev.snacktime.recipes"
+
+# -------------------------------------
 # Postgres
 postgres:
   image: postgres

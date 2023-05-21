@@ -14,5 +14,13 @@ spec:
       services:
         - name: snacktime-backend
           port: 80
+
+    # 
+    # Web ingress
+    - match: Host(`{{ .Values.web.ingress.url }}`)
+      kind: Rule
+      services:
+        - name: snacktime-web
+          port: 80
   tls:
     certResolver: "cloudflare"
