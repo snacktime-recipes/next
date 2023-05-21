@@ -17,7 +17,7 @@ steps:
       - apk add git
       - git rev-parse --short HEAD > .tags
       - cat .tags
-  - name: Build and push
+  - name: Build and push BACKEND image
     image: plugins/docker
     settings:
       dockerfile: apps/backend/Dockerfile
@@ -27,6 +27,16 @@ steps:
       password:
         from_secret: REGISTRY_PASSWORD
       repo: git.odzi.dog/snacktime/backend
+  - name: Build and push WEB image
+    image: plugins/docker
+    settings:
+      dockerfile: apps/web/Dockerfile
+      registry: git.odzi.dog
+      username:
+        from_secret: REGISTRY_USERNAME
+      password:
+        from_secret: REGISTRY_PASSWORD
+      repo: git.odzi.dog/snacktime/web
 
 ---
 kind: pipeline
