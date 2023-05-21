@@ -7,7 +7,7 @@
     "serve": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx vite dev",
+        "command": "npx concurrently \"npx vite dev\" \"npx typesafe-i18n\"",
         "cwd": "apps/web"
       }
     },
