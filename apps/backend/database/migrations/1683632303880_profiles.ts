@@ -11,13 +11,13 @@ export default class extends BaseSchema {
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()
       
-      table.string('name', 100)
+      table.string('name', 100).notNullable()
       table.string('last_name', 100).nullable()
       table.string('phone').nullable()
       table.json('avatar')
 
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

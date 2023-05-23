@@ -1,33 +1,41 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class extends BaseSchema {
-  protected tableName = 'profile_dish_directories'
+  protected tableName = 'product_dish_documents'
 
   public async up () {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
+      table.float('count').notNullable()
+      table.boolean("is_product").notNullable()
+      
       table
-        .integer('profile_id')
+        .integer('measure_unit_id')
         .unsigned()
-        .references('profiles.id')
+        .references('measure_units.id')
         .onDelete('CASCADE')
         .notNullable()
       
+      table
+        .integer('document_id')
+        .unsigned()
+        .references('documents.id')
+        .onDelete('CASCADE')
+        .notNullable()
+      
+      table
+        .integer('product_id')
+        .unsigned()
+        .references('products.id')
+        .onDelete('CASCADE')
+
       table
         .integer('dish_id')
         .unsigned()
         .references('dishes.id')
         .onDelete('CASCADE')
-        .notNullable()
 
-      table
-        .integer('directory_id')
-        .unsigned()
-        .references('directories.id')
-        .onDelete('CASCADE')
-        .notNullable()
-      
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()
     })

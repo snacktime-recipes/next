@@ -7,15 +7,14 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-
-
-      table.float('count')
+      table.float('count').notNullable()
 
       table
         .integer('measure_unit_id')
         .unsigned()
         .references('measure_units.id')
         .onDelete('CASCADE')
+        .notNullable()
       
       table
         .integer('product_id')
@@ -31,8 +30,8 @@ export default class extends BaseSchema {
         .references('dishes.id')
         .onDelete('CASCADE')
         
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

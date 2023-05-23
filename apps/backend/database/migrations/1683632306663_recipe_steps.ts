@@ -7,10 +7,10 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.string('name')
-      table.integer('step_number').unsigned()
-      table.float('active_time').unsigned()
-      table.float('passive_time').unsigned()
+      table.string('name').notNullable()
+      table.integer('step_number').unsigned().notNullable()
+      table.float('active_time').unsigned().notNullable()
+      table.float('passive_time').unsigned().notNullable()
 
       table
         .integer('dish_id')
@@ -24,8 +24,8 @@ export default class extends BaseSchema {
         .references('recipe_step_products.id')
         .onDelete('CASCADE')
       
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

@@ -4,10 +4,9 @@ import { attachment } from '@ioc:Adonis/Addons/AttachmentLite'
 import { AttachmentContract } from '@ioc:Adonis/Addons/AttachmentLite'
 import Dish from './Dish'
 import Directory from './Directory'
-import ProfileDish from './ProfileDish'
-import ProfileProduct from './ProfileProduct'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { ProfileModel, ProfileStatus } from '@snacktime/types';
+import Product from './Product'
 
 export default class Profile extends BaseModel implements ProfileModel {
   @column({ isPrimary: true })
@@ -45,16 +44,13 @@ export default class Profile extends BaseModel implements ProfileModel {
   }
 
   @hasMany(() => Dish)
-  public profilesDishes: HasMany<typeof Dish> 
+  public dishes: HasMany<typeof Dish> 
 
   @hasMany(() => Directory)
   public directories: HasMany<typeof Directory>
 
-  @hasMany(() => ProfileDish)
-  public dishes: HasMany<typeof ProfileDish>
-
-  @hasMany(() => ProfileProduct)
-  public products: HasMany<typeof ProfileProduct>
+  @hasMany(() => Product)
+  public products: HasMany<typeof Product>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -7,27 +7,29 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.string('name')
-      table.text('description').nullable()
-      table.integer('cookTime')
-      table.float('cookDifficulty')
-      table.boolean('isPrivate')
-      table.boolean('isIngredient')
+      table.string('name').notNullable()
+      table.text('description')
+      table.integer('cookTime').notNullable()
+      table.float('cookDifficulty').notNullable()
+      table.boolean('isPrivate').notNullable()
+      table.boolean('isIngredient').notNullable()
 
       table
         .integer('author_id')
         .unsigned()
         .references('profiles.id')
         .onDelete('CASCADE')
+        .notNullable()
       
       table
         .integer('category_id')
         .unsigned()
         .references('dish_categories.id')
         .onDelete('CASCADE')
+        .notNullable()
 
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 
