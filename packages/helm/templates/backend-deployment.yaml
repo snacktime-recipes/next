@@ -38,6 +38,9 @@ spec:
               name: secrets
               key: internalKeys
 
+        - name: "SESSION_DRIVER"
+          value: "cookie"
+
         - name: DRIVE_DISK
           value: "local"
         
