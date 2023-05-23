@@ -39,12 +39,12 @@ export default Env.rules({
 
   //
   // Socials
-  DISCORD_CLIENT_ID: Env.schema.string(),
-  DISCORD_CLIENT_SECRET: Env.schema.string(),
+  // DISCORD_CLIENT_ID: Env.schema.string(),
+  // DISCORD_CLIENT_SECRET: Env.schema.string(),
 
-  GOOGLE_CLIENT_ID: Env.schema.string(),
-  GOOGLE_CLIENT_SECRET: Env.schema.string(),
+  // GOOGLE_CLIENT_ID: Env.schema.string(),
+  // GOOGLE_CLIENT_SECRET: Env.schema.string(),
 
-  FACEBOOK_CLIENT_ID: Env.schema.string(),
-  FACEBOOK_CLIENT_SECRET: Env.schema.string(),
+  // FACEBOOK_CLIENT_ID: Env.schema.string(),
+  // FACEBOOK_CLIENT_SECRET: Env.schema.string(),
 })
