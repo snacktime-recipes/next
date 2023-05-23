@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, ManyToMany, beforeSave, belongsTo, column, manyToMany } from '@ioc:Adonis/Lucid/Orm'
-import ProfileDish from './ProfileDish'
 import Profile from './Profile'
 import { locate as locateIcon } from '@iconify/json';
+import Dish from './Dish';
 
 export default class Directory extends BaseModel {
   @column({ isPrimary: true })
@@ -20,13 +20,13 @@ export default class Directory extends BaseModel {
   @belongsTo(() => Profile)
   public profile: BelongsTo<typeof Profile>
 
-  @manyToMany(() => ProfileDish, {
+  @manyToMany(() => Dish, {
     pivotTable: 'ProfileDishDirectory',
-    onQuery(query) {
-      query.preload('dish');
-    }
+    // onQuery(query) {
+    //   query.preload('dish');
+    // }
   })
-  public dishes: ManyToMany<typeof ProfileDish>
+  public dishes: ManyToMany<typeof Dish>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

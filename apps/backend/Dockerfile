@@ -3,8 +3,8 @@
 FROM node:18-buster as deps
 WORKDIR /src
 
-COPY apps/backend/package.json .
-RUN npm install --production
+COPY . .
+RUN npm install --production -w @snacktime/backend
 
 # 
 # Builder
@@ -12,13 +12,11 @@ FROM node:18-buster as builder
 WORKDIR /src
 
 # todo
-# refactor
 COPY . .
 RUN npm install
-RUN cd apps/backend && npm install
 
 # Building
-RUN cd apps/backend && node ace build --production
+RUN npx nx build backend 
 
 # 
 # Runtime

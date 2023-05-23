@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: snacktime
+  name: snacktime-backend
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
 spec:
@@ -37,6 +37,9 @@ spec:
             secretKeyRef:
               name: secrets
               key: internalKeys
+
+        - name: "SESSION_DRIVER"
+          value: "cookie"
 
         - name: DRIVE_DISK
           value: "local"

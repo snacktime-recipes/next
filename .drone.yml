@@ -6,6 +6,10 @@ platform:
   os: linux
   arch: arm64
 
+trigger:
+  branch:
+    - dev
+
 steps:
   - name: Get git commit tag
     image: alpine
@@ -13,7 +17,7 @@ steps:
       - apk add git
       - git rev-parse --short HEAD > .tags
       - cat .tags
-  - name: Build and push
+  - name: Build and push BACKEND image
     image: plugins/docker
     settings:
       dockerfile: apps/backend/Dockerfile
@@ -23,6 +27,16 @@ steps:
       password:
         from_secret: REGISTRY_PASSWORD
       repo: git.odzi.dog/snacktime/backend
+  - name: Build and push WEB image
+    image: plugins/docker
+    settings:
+      dockerfile: apps/web/Dockerfile
+      registry: git.odzi.dog
+      username:
+        from_secret: REGISTRY_USERNAME
+      password:
+        from_secret: REGISTRY_PASSWORD
+      repo: git.odzi.dog/snacktime/web
 
 ---
 kind: pipeline
@@ -50,26 +64,3 @@ steps:
 
 depends_on:
   - build_image
-
-# ---
-# kind: pipeline
-# type: docker
-# name: deploy_production
-
-# platform:
-#   os: linux
-#   arch: arm64
-
-# steps:
-#   - name: Trigger snacktime/snacktime.recipes pipeline
-#     image: plugins/downstream
-#     settings:
-#       server: https://drone.odzi.dog
-#       token:
-#         from_secret: DRONE_TOKEN
-#       fork: true
-#       repositories:
-#         - snacktime/snacktime.recipes
-
-# depends_on:
-#   - build_image

@@ -9,6 +9,7 @@
   ],
   "compilerOptions": {
     "outDir": "build",
+    "rootDir": ".",
     "baseUrl": ".",
     "sourceMap": true,
     "paths": {
@@ -31,7 +32,9 @@
       "@japa/preset-adonis/build/adonis-typings",
       "@adonisjs/lucid",
       "@adonisjs/attachment-lite",
-      "@adonisjs/auth"
+      "@adonisjs/auth",
+      "@adonisjs/session",
+      "@adonisjs/ally"
     ]
   }
 }

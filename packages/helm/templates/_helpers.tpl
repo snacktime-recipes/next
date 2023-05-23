@@ -14,6 +14,6 @@ internalKeys: {{ $secret.data.internalKeys }}
     Generate new data
 */}}
 appKey: {{ randAlphaNum 10 | b64enc }}
-internalKeys: {{ randAlphaNum 10 | b64enc }},{{ randAlphaNum 10 | b64enc }}
+internalKeys: {{ randAlphaNum 10 | b64enc }}
 {{- end -}}
 {{- end -}}

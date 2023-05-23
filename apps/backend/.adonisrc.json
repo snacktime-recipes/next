@@ -1,7 +1,6 @@
 {
   "typescript": true,
   "commands": [
-    "./commands",
     "@adonisjs/core/build/commands/index.js",
     "@adonisjs/repl/build/commands",
     "@adonisjs/lucid/build/commands"
@@ -23,7 +22,9 @@
     "./providers/RecipeProvider",
     "@adonisjs/lucid",
     "@adonisjs/attachment-lite",
-    "@adonisjs/auth"
+    "@adonisjs/auth",
+    "@adonisjs/session",
+    "@adonisjs/ally"
   ],
   "aceProviders": [
     "@adonisjs/repl"
