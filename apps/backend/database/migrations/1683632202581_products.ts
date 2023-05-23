@@ -16,6 +16,7 @@ export default class extends BaseSchema {
         .references('product_categories.id')
         .onDelete('CASCADE')
         .notNullable()
+        .defaultTo(1)
 
       table
         .integer('author_id')
@@ -23,6 +24,7 @@ export default class extends BaseSchema {
         .references('profiles.id')
         .onDelete('CASCADE')
         .notNullable()
+        .defaultTo(1)
 
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()

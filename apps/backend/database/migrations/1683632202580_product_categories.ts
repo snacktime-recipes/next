@@ -16,9 +16,6 @@ export default class extends BaseSchema {
         .nullable()
         .references('product_categories.id')
         .onDelete('CASCADE')
-
-      table.timestamp('created_at', { useTz: true }).notNullable()
-      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

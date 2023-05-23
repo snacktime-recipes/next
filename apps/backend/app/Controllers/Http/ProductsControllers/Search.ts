@@ -2,8 +2,8 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database'
 import Product from 'App/Models/Product';
 
-export default class ProductsController {
-    public async getProducts({ request }: HttpContextContract){
+export default class Search {
+    public async paginate({ request }: HttpContextContract){
         const page = request.input('page', 1);
         const limit = 10;
 
@@ -12,13 +12,13 @@ export default class ProductsController {
         return products;
     }
 
-    public async searchProductsByName({ request }: HttpContextContract){
+    public async searchByName({ request }: HttpContextContract){
         const name = request.qs().name;
         const products = await Product.findMany(name);
         return products;
     }
 
-    public async searchProductsByCategory({ request }: HttpContextContract){
+    public async searchByCategory({ request }: HttpContextContract){
         const category = request.qs().category;
         const products = await Product.findMany(category);
         return products;
