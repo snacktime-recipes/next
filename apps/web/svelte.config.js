@@ -20,6 +20,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			$i18n: 'src/i18n',
+			$utils: 'src/utils.ts',
 		},
 	}
 };
