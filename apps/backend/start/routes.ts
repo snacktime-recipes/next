@@ -25,4 +25,4 @@
 */
 import './routes/auth';
 import './routes/internal';
-import './routes/Product'
+import './routes/product'

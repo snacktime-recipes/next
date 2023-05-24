@@ -2,7 +2,7 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ProductModel from 'App/Models/Product';
 import ProductCategory from 'App/Models/ProductCategory';
 
-export default class Product {
+export default class ProductController {
 
     public async create({ response, request } : HttpContextContract){
         const name = request.input('name');
@@ -21,19 +21,5 @@ export default class Product {
         product.save();
 
         response.send(category.toJSON())
-    }
-
-    public async createCategory({ response, request } : HttpContextContract){
-        const name = request.input('name');
-
-        const category = new ProductCategory();
-
-        category.fill({
-            name: name,
-            description: undefined,
-        })
-
-
-        category.save();
     }
 }
