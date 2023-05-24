@@ -26,6 +26,7 @@ export default class ProductController {
         product.fill({
             name: payload.name,
             description: payload.description,
+            isPublic: payload.isPublic,
         });
 
         // Associating this product with provided
