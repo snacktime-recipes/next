@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Dish from './Dish'
 import RecipeStepProduct from './RecipeStepProduct'
@@ -14,10 +13,10 @@ export default class RecipeStep extends BaseModel {
   public stepNumber: number
 
   @column()
-  public activeTime: DateTime
+  public activeTime: number
 
   @column()
-  public passiveTime: DateTime
+  public passiveTime: number
 
   @belongsTo(() => Dish)
   public dish: BelongsTo<typeof Dish>
