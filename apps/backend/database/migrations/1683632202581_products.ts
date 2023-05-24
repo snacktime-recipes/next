@@ -10,21 +10,21 @@ export default class extends BaseSchema {
       table.string('name').notNullable()
       table.text('description')
       
+      table.boolean('is_public')
+        .notNullable()
+        .defaultTo(false)
+
       table
         .integer('category_id')
         .unsigned()
         .references('product_categories.id')
         .onDelete('CASCADE')
-        .notNullable()
-        .defaultTo(1)
 
       table
         .integer('author_id')
         .unsigned()
         .references('profiles.id')
         .onDelete('CASCADE')
-        .notNullable()
-        .defaultTo(1)
 
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()

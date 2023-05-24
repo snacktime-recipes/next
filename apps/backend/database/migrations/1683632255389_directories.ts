@@ -13,7 +13,6 @@ export default class extends BaseSchema {
         .nullable()
         .references('profiles.id')
         .onDelete('CASCADE')
-        .notNullable()
 
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()

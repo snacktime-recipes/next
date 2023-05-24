@@ -13,7 +13,6 @@ export default class extends BaseSchema {
       table
         .integer('parent_category_id')
         .unsigned()
-        .nullable()
         .references('product_categories.id')
         .onDelete('CASCADE')
     })

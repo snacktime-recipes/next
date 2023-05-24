@@ -19,14 +19,12 @@ export default class extends BaseSchema {
         .unsigned()
         .references('profiles.id')
         .onDelete('CASCADE')
-        .notNullable()
       
       table
         .integer('category_id')
         .unsigned()
         .references('dish_categories.id')
         .onDelete('CASCADE')
-        .notNullable()
 
       table.timestamp('created_at', { useTz: true }).notNullable()
       table.timestamp('updated_at', { useTz: true }).notNullable()

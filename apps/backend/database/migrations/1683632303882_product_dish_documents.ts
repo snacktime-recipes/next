@@ -15,14 +15,12 @@ export default class extends BaseSchema {
         .unsigned()
         .references('measure_units.id')
         .onDelete('CASCADE')
-        .notNullable()
       
       table
         .integer('document_id')
         .unsigned()
         .references('documents.id')
         .onDelete('CASCADE')
-        .notNullable()
       
       table
         .integer('product_id')
