@@ -1,9 +1,12 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column, scope } from '@ioc:Adonis/Lucid/Orm'
+import { BelongsTo, belongsTo, column, scope } from '@ioc:Adonis/Lucid/Orm'
+import SearchableModel from './abstract/SearchableModel'
 import ProductCategory from './ProductCategory'
 import Profile from './Profile'
+import Logger from "@ioc:Adonis/Core/Logger";
+import AbstractModelSearchProvider from 'App/Search/AbstractModelSearchProvider'
 
-export default class Product extends BaseModel {
+export default class Product extends SearchableModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -46,4 +49,31 @@ export default class Product extends BaseModel {
   public static authoredBy = scope((query, profile: Profile) => {
     query.where('authorId', profile.id);
   });
+
+  // --------------------------------------------------------------------------
+  // Search-related
+  public static getSearchInstance() {
+    return this._getSearchInstanceWrapper<{ productId: number, name: string, description?: string }>({
+      // search schema
+      documentId: "number",
+      name: "string",
+      description: "string",
+    });
+  };
+
+  public static async reconlinceSearchDocuments(instance: AbstractModelSearchProvider): Promise<void> {
+    // Fetching all Product documents and adding them to our search
+    // database
+    const documents = await this.query();
+
+    for (const document of documents) {
+      await instance.insert({
+        productId: document.id,
+        name: document.name,
+        description: document.description ?? undefined,
+      });
+
+      Logger.info(`[${ this.name } search reconcile] Added document ${ document.toJSON() } to search index`);
+    };
+  }
 }
