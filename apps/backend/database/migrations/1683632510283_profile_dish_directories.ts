@@ -8,19 +8,28 @@ export default class extends BaseSchema {
       table.increments('id')
 
       table
-        .integer('profile_dish_id')
+        .integer('profile_id')
         .unsigned()
-        .references('profile_dishes.id')
+        .references('profiles.id')
         .onDelete('CASCADE')
+        .notNullable()
       
+      table
+        .integer('dish_id')
+        .unsigned()
+        .references('dishes.id')
+        .onDelete('CASCADE')
+        .notNullable()
+
       table
         .integer('directory_id')
         .unsigned()
         .references('directories.id')
         .onDelete('CASCADE')
+        .notNullable()
       
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

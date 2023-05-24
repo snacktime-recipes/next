@@ -20,7 +20,8 @@
 
 /*
 |--------------------------------------------------------------------------
-| Internal routes
+| All routes
 |--------------------------------------------------------------------------
 */
-import './routes/internal/InternalHelpers';
+import './routes/auth';
+import './routes/internal';

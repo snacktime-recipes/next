@@ -12,15 +12,17 @@ export default class extends BaseSchema {
         .unsigned()
         .references('measure_units.id')
         .onDelete('CASCADE')
+        .notNullable()
       
         table
         .integer('measure_unit_to_id')
         .unsigned()
         .references('measure_units.id')
         .onDelete('CASCADE')
+        .notNullable()
 
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

@@ -1,0 +1,6 @@
+<script lang="ts">
+    let className = "";
+    export { className as class };
+</script>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" class={className}><g fillRule="evenodd" strokeWidth="1pt"><path fill="gold" d="M0 0h640v480H0z"></path><path fill="#0057b8" d="M0 0h640v240H0z"></path></g></svg>
