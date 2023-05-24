@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne, scope } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, scope } from '@ioc:Adonis/Lucid/Orm'
 import ProductCategory from './ProductCategory'
 import Profile from './Profile'
 
