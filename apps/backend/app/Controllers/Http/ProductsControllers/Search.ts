@@ -1,23 +1,56 @@
+import { AuthenticationException } from '@adonisjs/auth/build/standalone';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Database from '@ioc:Adonis/Lucid/Database'
-import Product from 'App/Models/Product';
+import ForbiddenPayloadValueException from 'App/Exceptions/Payload/ForbiddenPayloadValueException';
+import InvalidPayloadException from 'App/Exceptions/Payload/InvalidPayloadException';
+import ProductModel from 'App/Models/Product';
 
 export default class ProductSearchController {
-    public async paginate({ request }: HttpContextContract){
-        const page = request.input('page', 1);
-        const limit = 10;
+    /*
+    |--------------------------------------------------------------------------
+    | GET /products
+    |--------------------------------------------------------------------------
+    |
+    | description: Paginates products of currently logged in user
+    | middlewares: SilentAuthMiddleware
+    | query parameters:
+    |   ?page (number)          - pagination page
+    |   ?limit (number)         - limit of products shown per page
+    |   ?showMyProducts (bool)  - show only currently logged in profile
+    |                             products (authorization required)
+    | returns: SimplePaginatorContract<ProductModel>
+    */
+    public async paginate({ request, auth }: HttpContextContract) {
+        // Getting required parameters from query
+        const page = parseInt(request.input('page', 1));
+        const limit = parseInt(request.input('limit', 10));
+        
+        // Optional parameters
+        const showMyProducts = request.input('showMyProducts') == 'true' ? true : false;
 
-        const products = await Database.from('products').paginate(page, limit);
+        if (showMyProducts && !auth.user) {
+            throw new AuthenticationException("Unathorized access", "E_UNAUTHORIZED_ACCESS");
+        };
 
-        return products;
-    }
+        if (Number.isNaN(page) || Number.isNaN(limit)) throw new InvalidPayloadException("Page or Limit query parameters are of invalid type");
+        if (limit > 35) throw new ForbiddenPayloadValueException("Pagination limit must not exceed 35");
+
+        // Paginating
+        return await ProductModel
+            .query()
+            .withScopes((scopes) => {
+                if (showMyProducts) return scopes.authoredBy(auth.user!);
+                
+                return scopes.public();
+            })
+            .paginate(page, limit);
+    };
 
     public async searchByName({ request }: HttpContextContract){
         const name = request.qs().name;
 
         // @todo
         // implement/use some kind of a full text search algorithm
-        const products = await Product.query().where('name', name);
+        const products = await ProductModel.query().where('name', name);
         return products;
     }
 
@@ -26,7 +59,7 @@ export default class ProductSearchController {
 
         // @todo
         // implement/use some kind of a full text search algorithm
-        const products = await Product
+        const products = await ProductModel
             .query()
             .whereHas('category', (query) => {
                 query.where('name', categoryName);

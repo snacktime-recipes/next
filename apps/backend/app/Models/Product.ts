@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasOne, belongsTo, column, hasOne, scope } from '@ioc:Adonis/Lucid/Orm'
 import ProductCategory from './ProductCategory'
 import Profile from './Profile'
 
@@ -12,19 +12,38 @@ export default class Product extends BaseModel {
 
   @column()
   public description?: string
-
-  @belongsTo(() => ProductCategory, {
-    foreignKey: "id"
-  })
-  public category: BelongsTo<typeof ProductCategory>
-
-  @belongsTo(() => Profile, { localKey: 'id' })
-  public author: BelongsTo<typeof Profile>
   
+  @column()
+  public isPublic: boolean
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
+  // --------------------------------------------------------------------------
+  // Relationships
+
+  @belongsTo(() => ProductCategory, { foreignKey: "categoryId" })
+  public category: BelongsTo<typeof ProductCategory>
+
+  @column()
+  public categoryId?: number;
+
+  @belongsTo(() => Profile, { foreignKey: "authorId" })
+  public author: BelongsTo<typeof Profile>
+
+  @column()
+  public authorId?: number;
+
+  // --------------------------------------------------------------------------
+  // Query scopes
+  public static public = scope((query) => {
+    query.where('isPublic', true);
+  });
+
+  public static authoredBy = scope((query, profile: Profile) => {
+    query.where('authorId', profile.id);
+  });
 }

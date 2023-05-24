@@ -9,8 +9,12 @@ export default class ProductCategory extends BaseModel {
 
   @column()
   public description?: string
-  
-  @belongsTo(() => ProductCategory)
+
+  // --------------------------------------------------------------------------
+  // Relationships
+  @belongsTo(() => ProductCategory, { foreignKey: "parentCategoryId" })
   public parentCategory: BelongsTo<typeof ProductCategory>
 
+  @column()
+  public parentCategoryId?: number;
 }
