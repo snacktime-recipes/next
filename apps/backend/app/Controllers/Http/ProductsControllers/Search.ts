@@ -85,4 +85,9 @@ export default class ProductSearchController {
                 }
             });
     };
+
+    public async fetchById({ request }: HttpContextContract){
+        const productId = request.input("id");
+        return await Product.findOrFail(productId);
+    }
 }

@@ -36,4 +36,10 @@ export default class ProductController {
         
         return await product.save();
     }
+
+    public async deleteById({ request }: HttpContextContract){
+        const productId = request.input('id');
+        const product = await ProductModel.findOrFail(productId);
+        await product.delete()
+    }
 }
