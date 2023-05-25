@@ -4,9 +4,8 @@ export default Route
     .group(() => {
         Route.get('', 'ProductsControllers/Search.paginate').middleware('silentAuth');
         Route.post('', 'ProductsControllers/Product.create').middleware('auth');
-        Route.get('/searchByName', 'ProductsControllers/Search.searchByName');
-        Route.get('/searchByCategory', 'ProductsControllers/Search.searchByCategory');
-    
+        Route.get('/search', 'ProductsControllers/Search.search').middleware('silentAuth');
+
         // @todo
         // Route.get('/:id', 'ProductsControllers/Product.fetchById')
         // Route.delete('/:id', 'ProductsControllers/Product.deleteById')

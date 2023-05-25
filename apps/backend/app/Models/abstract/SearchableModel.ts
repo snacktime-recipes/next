@@ -2,6 +2,7 @@ import { BaseModel } from "@ioc:Adonis/Lucid/Orm";
 import { Document, Schema } from "@orama/orama";
 import Logger from "@ioc:Adonis/Core/Logger";
 import AbstractModelSearchProvider from "App/Search/AbstractModelSearchProvider";
+import RuntimeException from "App/Exceptions/RuntimeException";
 
 export default class SearchableModel extends BaseModel {
     private static instance?: AbstractModelSearchProvider;
@@ -12,13 +13,9 @@ export default class SearchableModel extends BaseModel {
         if (!this.instance) {
             this.instance = await AbstractModelSearchProvider.createForSchema(defaultSchema);
             
-            console.log("creating new instance");
-
             // Asking our model to reconcile
             if (!this.wasReconciled) {
-                console.log("not reconciled");
-
-                Logger.info(`Starting search reconcilation process for ${ this.name }`);
+                Logger.debug(`Starting search reconcilation process for ${ this.name }`);
                 await this.reconlinceSearchDocuments(this.instance);
 
                 this.wasReconciled = true;
@@ -30,7 +27,7 @@ export default class SearchableModel extends BaseModel {
         }
     };
 
-    public static async reconlinceSearchDocuments(instance: AbstractModelSearchProvider) {
-        throw new Error(`Reconcile method for ${ this.name } extends SearchableModel not implemented`);
+    public static async reconlinceSearchDocuments(_: AbstractModelSearchProvider) {
+        throw new RuntimeException(`Reconcile method for ${ this.name } extends SearchableModel not implemented`);
     };
 };

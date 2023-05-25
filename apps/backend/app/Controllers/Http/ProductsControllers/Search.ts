@@ -2,7 +2,7 @@ import { AuthenticationException } from '@adonisjs/auth/build/standalone';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ForbiddenPayloadValueException from 'App/Exceptions/Payload/ForbiddenPayloadValueException';
 import InvalidPayloadException from 'App/Exceptions/Payload/InvalidPayloadException';
-import ProductModel from 'App/Models/Product';
+import Product from 'App/Models/Product';
 
 export default class ProductSearchController {
     /*
@@ -35,7 +35,7 @@ export default class ProductSearchController {
         if (limit > 35) throw new ForbiddenPayloadValueException("Pagination limit must not exceed 35");
 
         // Paginating
-        return await ProductModel
+        return await Product
             .query()
             .withScopes((scopes) => {
                 if (showMyProducts) return scopes.authoredBy(auth.user!);
@@ -45,26 +45,44 @@ export default class ProductSearchController {
             .paginate(page, limit);
     };
 
-    public async searchByName({ request }: HttpContextContract){
-        const name = request.qs().name;
+    /*
+    |--------------------------------------------------------------------------
+    | GET /products/search
+    |--------------------------------------------------------------------------
+    |
+    | description: Searches products by given query. If searchMyProducts == true -
+    |              searches only user-authored products
+    | middlewares: SilentAuth
+    */
+    public async search({ request, auth }: HttpContextContract) {
+        // Mandatory options
+        const query = request.input("query");
+        if (!query) throw new InvalidPayloadException("No \"query\" parameter specified");
+    
+        const searchMyProducts = request.input("searchMyProducts") == "true" ? true : false;
 
-        // @todo
-        // implement/use some kind of a full text search algorithm
-        const products = await ProductModel.query().where('name', name);
-        return products;
-    }
+        // Checking user authorization
+        if (searchMyProducts && auth.user == null) {
+            throw new AuthenticationException("Unathorized access", "E_UNAUTHORIZED_ACCESS");
+        };
 
-    public async searchByCategory({ request }: HttpContextContract){
-        const categoryName = request.qs().category;
-
-        // @todo
-        // implement/use some kind of a full text search algorithm
-        const products = await ProductModel
-            .query()
-            .whereHas('category', (query) => {
-                query.where('name', categoryName);
+        return (await Product.getSearchInstance())
+            .search({
+                term: query,
+                where: {
+                    ...searchMyProducts
+                        // If authorized and {searchMyProduct} provided - search with
+                        // specified authorId
+                        ? {
+                            authorId: {
+                                eq: auth.user!.id,
+                            }
+                        }
+                        // Else - search every publicly listed product
+                        : {
+                            isPublic: true
+                        }
+                }
             });
-        return products;
-    }
-
+    };
 }
