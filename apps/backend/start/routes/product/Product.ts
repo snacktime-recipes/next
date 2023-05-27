@@ -7,9 +7,9 @@ export default Route
         Route.get('/search', 'ProductsControllers/Search.search').middleware('silentAuth');
         
         Route.post('', 'ProductsControllers/Product.create').middleware('auth');
+        Route.patch('/:id', 'ProductsControllers/Product.updateById').middleware('auth')
         Route.delete('/:id', 'ProductsControllers/Product.deleteById').middleware('auth');
         
         // @todo
-        // Route.patch('/:id', 'ProductsControllers/Product.updateById')
     })
     .prefix('/products');

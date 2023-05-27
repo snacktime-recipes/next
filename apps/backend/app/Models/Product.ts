@@ -82,7 +82,7 @@ export default class Product extends SearchableModel {
       },
     });
   };
-
+/* 
   @afterSave()
   public static async insertToSearchIndex(document: Product) {
     const instance = await this.getSearchInstance();
@@ -106,7 +106,7 @@ export default class Product extends SearchableModel {
 
     Logger.debug(`[${ this.name } insertToSearchIndex] Added/Updated document ${ JSON.stringify(document.toJSON()) } to search index`);
   };
-
+ */
   public static async reconlinceSearchDocuments(instance: AbstractModelSearchProvider<SearchableProductData>): Promise<void> {
     // Fetching all Product documents and adding them to our search
     // database

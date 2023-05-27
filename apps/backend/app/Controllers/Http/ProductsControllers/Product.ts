@@ -3,8 +3,9 @@ import ActionForbiddenException from 'App/Exceptions/Auth/ActionForbiddenExcepti
 import ProductModel from 'App/Models/Product';
 import ProductCategory from 'App/Models/ProductCategory';
 import CreateProductValidator from 'App/Validators/Product/CreateProductValidator';
+import UpdateProductValidator from 'App/Validators/Product/UpdateProductValidator';
 
-export default class ProductController {
+export default class Product {
     /*
     |--------------------------------------------------------------------------
     | POST /products
@@ -12,7 +13,7 @@ export default class ProductController {
     |
     | description: Creates new product.
     | middlewares: AuthMiddleware
-    | returns: ProductModule
+    | returns: ProductModel
     */
     public async create({ request, auth } : HttpContextContract){
         const payload = await request.validate(CreateProductValidator);
@@ -26,7 +27,7 @@ export default class ProductController {
         product.fill({
             name: payload.name,
             description: payload.description,
-            isPublic: payload.isPublic,
+            isPublic: payload.isPublic ?? false,
         });
 
         // Associating this product with provided
@@ -36,7 +37,30 @@ export default class ProductController {
         
         return await product.save();
     }
+    /*  
+    |--------------------------------------------------------------------------
+    | PATCH /products/:id
+    |--------------------------------------------------------------------------
+    |
+    | description: Updates product with specified id.
+    | middlewares: AuthMiddleware
+    | returns: ProductModel
+    */
+    public async updateById({ request, params }: HttpContextContract){
+        const payload = await request.validate(UpdateProductValidator);
+        const product = await ProductModel.findOrFail(params.id);
+        
+        product.name = payload.name ?? product.name;
+        product.description = payload.description ?? product.description;
+        product.isPublic = payload.isPublic ?? product.isPublic;
 
+        if(payload.categoryId && payload.categoryId != product.categoryId){
+            const category = await ProductCategory.findOrFail(payload.categoryId);
+            await product.related("category").associate(category);
+        }
+
+        return await product.save();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -45,7 +69,7 @@ export default class ProductController {
     |
     | description: Deletes product with specified id.
     | middlewares: AuthMiddleware
-    | returns: ProductModule
+    | returns: ProductModel
     */
     public async deleteById({ params, auth }: HttpContextContract){
         const product = await ProductModel.findOrFail(params.id);
