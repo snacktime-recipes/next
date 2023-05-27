@@ -22,7 +22,7 @@ export default class Dish extends BaseModel {
   public cookDifficulty: number
 
   @column()
-  public isPrivate: boolean
+  public isPublic: boolean
 
   @column()
   public isIngredient: boolean

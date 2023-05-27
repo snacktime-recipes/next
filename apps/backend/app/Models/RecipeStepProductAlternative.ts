@@ -10,6 +10,9 @@ export default class RecipeProductAlternative extends BaseModel {
   @column()
   public count: number
 
+  @column()
+  public isDishIngredient: boolean
+
   @belongsTo(() => MeasureUnit)
   public measure: BelongsTo<typeof MeasureUnit>
 

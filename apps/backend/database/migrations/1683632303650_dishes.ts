@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       table.text('description')
       table.integer('cookTime').notNullable()
       table.float('cookDifficulty').notNullable()
-      table.boolean('isPrivate').notNullable()
+      table.boolean('isPublic').notNullable()
       table.boolean('isIngredient').notNullable()
 
       table
