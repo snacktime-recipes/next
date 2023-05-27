@@ -1,7 +1,7 @@
 import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class CreateDishValidator {
+export default class CreateDishCategoryValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   /*
@@ -23,52 +23,15 @@ export default class CreateDishValidator {
    *     ])
    *    ```
    */
-
-  public ingredientSchema = schema.object().members({
-    isDishIngredient: schema.boolean(),
-    count: schema.number([
-      rules.range(0, 25),
-    ]),
-    measureUnitId: schema.number([
-      rules.exists({
-        table: 'measure_units',
-        column: 'id'
-      })
-    ]),
-    productIngredientId: schema.number.optional([
-      rules.exists({
-        table: 'products',
-        column: 'id'
-      })
-    ]),
-    dishIngredientId: schema.number.optional([
-      rules.exists({
-        table: 'dishes',
-        column: 'id'
-      }),
-    ]),
-    // alternatives: schema.array().members(),
-  })
-
-  public recipeStepSchema = schema.object().members({
-    name: schema.string(),
-    activeTime: schema.number(),
-    passiveTime: schema.number(),
-    ingredients: schema.array().members(this.ingredientSchema),
-  })
-
   public schema = schema.create({
     name: schema.string(),
     description: schema.string.optional(),
-    isIngredient: schema.boolean.optional(),
-    isPublic: schema.boolean.optional(),
-    categoryId: schema.number([
+    parentId: schema.number.optional([
       rules.exists({
         table: 'dish_categories',
         column: 'id'
-      })
-    ]),
-    recipeSteps: schema.array().members(this.recipeStepSchema)
+      }),
+    ])
   })
 
   /**

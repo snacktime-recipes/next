@@ -92,7 +92,7 @@ export default class Product extends SearchableModel {
     // Adding this document to search index
     await instance.insert({
       documentId: document.id,
-      authorId: document.author.id,
+      authorId: document.authorId!,
 
       name: document.name,
       description: document.description,
@@ -104,7 +104,7 @@ export default class Product extends SearchableModel {
       }
     });
 
-    Logger.debug(`[${ this.name } insertToSearchIndex] Added/Updated document ${ document.toJSON() } to search index`);
+    Logger.debug(`[${ this.name } insertToSearchIndex] Added/Updated document ${ JSON.stringify(document.toJSON()) } to search index`);
   };
 
   public static async reconlinceSearchDocuments(instance: AbstractModelSearchProvider<SearchableProductData>): Promise<void> {

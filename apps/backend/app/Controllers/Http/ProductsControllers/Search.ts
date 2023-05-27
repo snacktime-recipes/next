@@ -1,5 +1,6 @@
 import { AuthenticationException } from '@adonisjs/auth/build/standalone';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import ActionForbiddenException from 'App/Exceptions/Auth/ActionForbiddenException';
 import ForbiddenPayloadValueException from 'App/Exceptions/Payload/ForbiddenPayloadValueException';
 import InvalidPayloadException from 'App/Exceptions/Payload/InvalidPayloadException';
 import Product from 'App/Models/Product';
@@ -86,8 +87,24 @@ export default class ProductSearchController {
             });
     };
 
-    public async fetchById({ request }: HttpContextContract){
-        const productId = request.input("id");
-        return await Product.findOrFail(productId);
+    /*
+    |--------------------------------------------------------------------------
+    | GET /products/:id
+    |--------------------------------------------------------------------------
+    |
+    | description: Fetches specified product (if product is private - checks
+    |              if current user is the author of this product)
+    | middlewares: SilentAuthMiddleware
+    | returns: ProductModule
+    */
+    public async fetchById({ params, auth }: HttpContextContract){
+        const product = await Product.findOrFail(params.id);
+        
+        if (!product.isPublic) {
+            if (!auth.user) throw new AuthenticationException("Unathorized access", "E_UNAUTHORIZED_ACCESS");
+            if (product.authorId !== auth.user.id) throw new ActionForbiddenException("You do not own this product");
+        };
+
+        return product.toJSON();
     }
 }

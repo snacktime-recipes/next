@@ -1,4 +1,4 @@
-import { BaseModel, HasMany, HasOne, column, hasOne, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, HasMany, column, hasMany, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
 import Dish from './Dish'
 
 export default class DishCategory extends BaseModel {
@@ -11,8 +11,13 @@ export default class DishCategory extends BaseModel {
   @column()
   public description?: string
   
-  @hasOne(() => DishCategory)
-  public parent: HasOne<typeof DishCategory>
+  // --------------------------------------------------------------------------
+  // Relationships
+  @belongsTo(() => DishCategory, { foreignKey: "parentCategoryId" })
+  public parentCategory: BelongsTo<typeof DishCategory>
+
+  @column()
+  public parentCategoryId?: number;
 
   @hasMany(() => Dish)
   public dishes: HasMany<typeof Dish>

@@ -9,10 +9,10 @@ export default class extends BaseSchema {
 
       table.string('name').notNullable()
       table.text('description')
-      table.integer('cookTime').notNullable()
-      table.float('cookDifficulty').notNullable()
-      table.boolean('isPublic').notNullable()
-      table.boolean('isIngredient').notNullable()
+      table.integer('cook_time').notNullable()
+      table.float('cook_difficulty').notNullable()
+      table.boolean('is_public').notNullable()
+      table.boolean('is_ingredient').notNullable()
 
       table
         .integer('author_id')

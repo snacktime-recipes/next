@@ -27,11 +27,20 @@ export default class Dish extends BaseModel {
   @column()
   public isIngredient: boolean
 
-  @belongsTo(() => Profile, { localKey: 'id' })
+  // --------------------------------------------------------------------------
+  // Relationships
+
+  @belongsTo(() => Profile, { foreignKey: "authorId" })
   public author: BelongsTo<typeof Profile>
 
-  @belongsTo(() => DishCategory, { localKey: 'id' })
+  @column()
+  public authorId?: number;
+
+  @belongsTo(() => DishCategory, { foreignKey: "categoryId" })
   public category: BelongsTo<typeof DishCategory>
+
+  @column()
+  public categoryId?: number;
 
   @hasMany(() => RecipeStep)
   public recipeSteps: HasMany<typeof RecipeStep>

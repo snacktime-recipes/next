@@ -15,17 +15,29 @@ export default class RecipeStepProduct extends BaseModel {
   @column()
   public count: number
 
-  @belongsTo(() => MeasureUnit)
-  public measure: BelongsTo<typeof MeasureUnit>
+  // --------------------------------------------------------------------------
+  // Relationships
 
-  @hasOne(() => RecipeStep)
-  public recipeStep: HasOne<typeof RecipeStep>
+  @column()
+  public recipeStepId: number;
+
+  @belongsTo(() => MeasureUnit)
+  public measureUnit: BelongsTo<typeof MeasureUnit>
+
+  @column()
+  public measureUnitId: number;
 
   @belongsTo(() => Product)
   public productIngredient: BelongsTo<typeof Product> // | null
 
+  @column()
+  public productIngredientId?: number;
+
   @belongsTo(() => Dish)
   public dishIngredient: BelongsTo<typeof Dish> // | null
+
+  @column()
+  public dishIngredientId?: number;
 
   public ingredient(isDishIngredient: true): this['dishIngredient'];
   public ingredient(isDishIngredient: false): this['dishIngredient'];
@@ -33,6 +45,6 @@ export default class RecipeStepProduct extends BaseModel {
     return (isDishIngredient ? this.dishIngredient : this.productIngredient);
   }
 
-  @hasMany(() => RecipeProductAlternative)
-  public alternatives: HasMany<typeof RecipeProductAlternative>
+  // @hasMany(() => RecipeProductAlternative)
+  // public alternatives: HasMany<typeof RecipeProductAlternative>
 }

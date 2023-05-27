@@ -18,8 +18,14 @@ export default class RecipeStep extends BaseModel {
   @column()
   public passiveTime: number
 
+  // --------------------------------------------------------------------------
+  // Relationships
+
   @belongsTo(() => Dish)
   public dish: BelongsTo<typeof Dish>
+
+  @column()
+  public dishId?: number;
 
   @hasMany(() => RecipeStepProduct, {
     onQuery(query) {
@@ -27,5 +33,5 @@ export default class RecipeStep extends BaseModel {
       query.preload('productIngredient');
     }
   })
-  public products: HasMany<typeof RecipeStepProduct>
+  public ingredients: HasMany<typeof RecipeStepProduct>
 }

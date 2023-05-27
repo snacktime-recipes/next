@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
 
-      table.boolean('isDishIngredient').notNullable()
+      table.boolean('is_dish_ingredient').notNullable()
       table.float('count').notNullable()
 
       table
@@ -17,19 +17,22 @@ export default class extends BaseSchema {
         .onDelete('CASCADE')
 
       table
-        .integer('product_id')
+        .integer('product_ingredient_id')
         .unsigned()
         .references('products.id')
         .onDelete('CASCADE')
       
       table
-        .integer('dish_id')
+        .integer('dish_ingredient_id')
         .unsigned()
         .references('dishes.id')
         .onDelete('CASCADE')
 
-      table.timestamp('created_at', { useTz: true }).notNullable()
-      table.timestamp('updated_at', { useTz: true }).notNullable()
+      table
+        .integer('recipe_step_id')
+        .unsigned()
+        .references('recipe_steps.id')
+        .onDelete('CASCADE')
     })
   }
 

@@ -26,3 +26,5 @@
 import './routes/auth';
 import './routes/internal';
 import './routes/product'
+import './routes/dish';
+import './routes/unit';

@@ -2,15 +2,14 @@ import Route from '@ioc:Adonis/Core/Route'
 
 export default Route
     .group(() => {
+        Route.get('/:id', 'ProductsControllers/Search.fetchById').middleware('silentAuth');
         Route.get('', 'ProductsControllers/Search.paginate').middleware('silentAuth');
-        Route.post('', 'ProductsControllers/Product.create').middleware('auth');
         Route.get('/search', 'ProductsControllers/Search.search').middleware('silentAuth');
-        Route.delete('/:id', 'ProductsControllers/Product.deleteById')
-        Route.get('/:id', 'ProductsControllers/Search.fetchById')
+        
+        Route.post('', 'ProductsControllers/Product.create').middleware('auth');
+        Route.delete('/:id', 'ProductsControllers/Product.deleteById').middleware('auth');
+        
         // @todo
-        
-        
         // Route.patch('/:id', 'ProductsControllers/Product.updateById')
-        // Route.get('/my', 'ProductsControllers/Search.paginateMyProducts').middleware('auth');
     })
     .prefix('/products');
