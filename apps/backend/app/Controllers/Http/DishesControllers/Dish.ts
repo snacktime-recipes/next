@@ -36,12 +36,6 @@ export default class Dish {
             isPublic: payload.isPublic ?? false,
         });
 
-        // @todo
-        // calculating cook time and cook difficulty
-        dish.merge({
-            cookTime: 0,
-            cookDifficulty: 0,
-        });
 
         // Associating this product with provided
         // category and with currently logged in account
@@ -50,10 +44,16 @@ export default class Dish {
 
         // Creating our recipe steps
         let currentStepNumber = 1;
+        let activeTime = 0;
+        let passiveTime = 0;
+        const ingredients = new Set();
         const steps: Array<RecipeStep> = [];
 
         for (const originalStep of payload.recipeSteps) {
             const step = new RecipeStep();
+            
+            activeTime += originalStep.activeTime;
+            passiveTime += originalStep.passiveTime;
             
             step.fill({
                 ...originalStep,
@@ -78,6 +78,8 @@ export default class Dish {
                     ...originalIngredient,
                 });
 
+                ingredient.isDishIngredient ? ingredients.add(ingredient.dishIngredient) : ingredients.add(ingredient.productIngredient);
+
                 await ingredient.save();
             };
 
@@ -85,6 +87,13 @@ export default class Dish {
             steps.push(step);
             await step.save();
         };
+
+        // @todo
+        // calculating cook time and cook difficulty
+        dish.merge({
+            cookTime: activeTime + passiveTime,
+            cookDifficulty: activeTime + (passiveTime * 0.5) + currentStepNumber + ingredients.size,
+        });
 
         // Associating our recipe steps with our dish
         await dish.related('recipeSteps').saveMany(steps);
