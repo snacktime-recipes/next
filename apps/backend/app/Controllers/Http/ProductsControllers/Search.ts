@@ -5,7 +5,7 @@ import ForbiddenPayloadValueException from 'App/Exceptions/Payload/ForbiddenPayl
 import InvalidPayloadException from 'App/Exceptions/Payload/InvalidPayloadException';
 import Product from 'App/Models/Product';
 
-export default class ProductSearchController {
+export default class Search {
     /*
     |--------------------------------------------------------------------------
     | GET /products
