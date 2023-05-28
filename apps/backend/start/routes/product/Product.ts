@@ -9,7 +9,5 @@ export default Route
         Route.post('', 'ProductsControllers/Product.create').middleware('auth');
         Route.patch('/:id', 'ProductsControllers/Product.updateById').middleware('auth')
         Route.delete('/:id', 'ProductsControllers/Product.deleteById').middleware('auth');
-        
-        // @todo
     })
     .prefix('/products');
