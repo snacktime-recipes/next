@@ -4,13 +4,22 @@ import MeasureUnit from './MeasureUnit'
 export default class ConversionMeasureUnit extends BaseModel {
   @column({ isPrimary: true })
   public id: number
+  
+  @column()
+  public coefficient: number
 
-  @belongsTo(() => MeasureUnit)
+  // --------------------------------------------------------------------------
+  // Relationships
+  @belongsTo(() => MeasureUnit, {foreignKey: "measureUnitFromId"})
   public measureUnitFrom: BelongsTo<typeof MeasureUnit>
+  
+  @column()
+  public measureUnitFromId
 
-  @belongsTo(() => MeasureUnit)
+  @belongsTo(() => MeasureUnit, {foreignKey: "measureUnitToId"})
   public measureUnitTo: BelongsTo<typeof MeasureUnit>
 
   @column()
-  public coefficient: number
+  public measureUnitToId
+
 }

@@ -19,8 +19,6 @@ export default class extends BaseSchema {
         .references('measure_units.id')
         .onDelete('CASCADE')
 
-      table.timestamp('created_at', { useTz: true }).notNullable()
-      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 
