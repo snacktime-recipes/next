@@ -1,4 +1,4 @@
-import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
+import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class CreateUnitValidator {
@@ -25,15 +25,21 @@ export default class CreateUnitValidator {
    */
 
   public conversionMeasureUnitsSchema = schema.object().members({
-    coefficient: schema.number(),
-    measureUnitFromId: schema.number(),
-    measureUnitToId: schema.number()
+    coefficient: schema.number([
+      rules.range(0, Number.MAX_VALUE)
+    ]),
+    measureUnitToId: schema.number([
+      rules.exists({
+        table: 'measure_units',
+        column: 'id'
+      })
+    ])
   })
 
   public schema = schema.create({
     name: schema.string(),
     description: schema.string.optional(),
-    conversionMeasureUnits: schema.array.optional().members(this.conversionMeasureUnitsSchema)
+    conversions: schema.array.optional().members(this.conversionMeasureUnitsSchema)
   })
 
   /**

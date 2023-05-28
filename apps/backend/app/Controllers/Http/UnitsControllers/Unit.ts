@@ -14,10 +14,9 @@ export default class Unit {
     | middlewares: internalAuth
     | returns: MeasureUnitModule
     */
-    public async create({ request, auth } : HttpContextContract){
+    public async create({ request } : HttpContextContract){
         const payload = await request.validate(CreateUnitValidator);
         
-
         const unit = new MeasureUnit();
         
         unit.fill({
@@ -25,26 +24,27 @@ export default class Unit {
             description: payload.description,
         });
 
-        if(!payload.conversionMeasureUnits)
+        if (!payload.conversions)
             return await unit.save();
 
-        // Creating our recipe steps
+        // Creating conversions (if exists)
         const conversionMeasureUnits: Array<ConversionMeasureUnit> = [];
 
-        for (const originalconversionMeasureUnit of payload.conversionMeasureUnits) {
+        for (const originalConversionMeasureUnit of payload.conversions) {
             const conversionMeasureUnit = new ConversionMeasureUnit();
             
             conversionMeasureUnit.fill({
-                ...originalconversionMeasureUnit,
+                ...originalConversionMeasureUnit,
+                measureUnitFromId: unit.id,
             });
 
-            conversionMeasureUnits.push(conversionMeasureUnit);
-            await conversionMeasureUnit.save();
+            conversionMeasureUnits.push(await conversionMeasureUnit.save());
         };
 
         // Associating our recipe steps with our dish
         await unit.related('conversionMeasureUnits').saveMany(conversionMeasureUnits);
         
+        await unit.load('conversionMeasureUnits');
         return await unit.save();
     }
 

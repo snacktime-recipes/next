@@ -7,6 +7,8 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
 
+      table.double('coefficient').notNullable()
+
       table
         .integer('measure_unit_from_id')
         .unsigned()
