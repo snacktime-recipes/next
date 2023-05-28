@@ -34,8 +34,9 @@ export default class Dish {
             description: payload.description,
             isIngredient: payload.isIngredient ?? false,
             isPublic: payload.isPublic ?? false,
+            cookTime: 0,
+            cookDifficulty: 0,
         });
-
 
         // Associating this product with provided
         // category and with currently logged in account
@@ -51,7 +52,8 @@ export default class Dish {
 
         for (const originalStep of payload.recipeSteps) {
             const step = new RecipeStep();
-            
+            step.useTransaction(trx);
+
             activeTime += originalStep.activeTime;
             passiveTime += originalStep.passiveTime;
             
@@ -73,23 +75,20 @@ export default class Dish {
 
                 // Creating our RecipeStepProduct
                 const ingredient = new RecipeStepProduct();
+                ingredient.useTransaction(trx);
 
                 ingredient.fill({
                     ...originalIngredient,
                 });
 
-                ingredient.isDishIngredient ? ingredients.add(ingredient.dishIngredient) : ingredients.add(ingredient.productIngredient);
-
-                await ingredient.save();
+                ingredients.add(ingredient.productIngredient ?? ingredient.dishIngredient);
             };
 
             // Pushing our step to array and saving it
             steps.push(step);
-            await step.save();
         };
 
-        // @todo
-        // calculating cook time and cook difficulty
+        // Merging cook time and cook difficulty
         dish.merge({
             cookTime: activeTime + passiveTime,
             cookDifficulty: activeTime + (passiveTime * 0.5) + currentStepNumber + ingredients.size,
