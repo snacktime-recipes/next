@@ -1,9 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany, HasMany, BelongsTo, belongsTo } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany, BelongsTo, belongsTo, beforeFind, ModelQueryBuilderContract } from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
 import DishCategory from './DishCategory'
 import RecipeStep from './RecipeStep'
 import Product from './Product'
+
+type Dishquery = ModelQueryBuilderContract<typeof Dish>
 
 export default class Dish extends BaseModel {
   @column({ isPrimary: true })
@@ -52,6 +54,24 @@ export default class Dish extends BaseModel {
     
     return [];
   }
+  // --------------------------------------------------------------------------
+  // Hooks
+
+  @beforeFind()
+  public static async preloadData(query: Dishquery){
+    query.preload('author');
+    query.preload('category');
+    query.preload('recipeSteps', (recipeStepsQuery) =>{
+      recipeStepsQuery.preload('ingredients', (ingredientsQuery)=>{
+        ingredientsQuery
+          .preload('measureUnit')
+          .preload('productIngredient')
+          .preload('dishIngredient');
+          
+      });
+    });
+  }
+
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

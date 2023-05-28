@@ -18,6 +18,9 @@ export default class RecipeStepProduct extends BaseModel {
   // --------------------------------------------------------------------------
   // Relationships
 
+  @belongsTo(() => RecipeStep)
+  public recipeStep: BelongsTo<typeof RecipeStep>
+  
   @column()
   public recipeStepId: number;
 
@@ -27,13 +30,13 @@ export default class RecipeStepProduct extends BaseModel {
   @column()
   public measureUnitId: number;
 
-  @belongsTo(() => Product)
+  @belongsTo(() => Product, {foreignKey: "productIngredientId"})
   public productIngredient: BelongsTo<typeof Product> // | null
 
   @column()
   public productIngredientId?: number;
 
-  @belongsTo(() => Dish)
+  @belongsTo(() => Dish, {foreignKey: "dishIngredientId"})
   public dishIngredient: BelongsTo<typeof Dish> // | null
 
   @column()

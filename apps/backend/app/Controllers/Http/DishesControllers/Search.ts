@@ -1,4 +1,7 @@
+import { AuthenticationException } from '@adonisjs/auth/build/standalone';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import ForbiddenPayloadValueException from 'App/Exceptions/Payload/ForbiddenPayloadValueException';
+import InvalidPayloadException from 'App/Exceptions/Payload/InvalidPayloadException';
 import Dish from 'App/Models/Dish';
 
 export default class Search {
@@ -24,12 +27,12 @@ export default class Search {
         // Optional parameters
         const showMyDishes = request.input('showMyProducts') == 'true' ? true : false;
 
-        // if (showMyProducts && !auth.user) {
-        //     throw new AuthenticationException("Unathorized access", "E_UNAUTHORIZED_ACCESS");
-        // };
+        if (showMyDishes && !auth.user) {
+            throw new AuthenticationException("Unathorized access", "E_UNAUTHORIZED_ACCESS");
+        };
 
-        // if (Number.isNaN(page) || Number.isNaN(limit)) throw new InvalidPayloadException("Page or Limit query parameters are of invalid type");
-        // if (limit > 35) throw new ForbiddenPayloadValueException("Pagination limit must not exceed 35");
+        if (Number.isNaN(page) || Number.isNaN(limit)) throw new InvalidPayloadException("Page or Limit query parameters are of invalid type");
+        if (limit > 35) throw new ForbiddenPayloadValueException("Pagination limit must not exceed 35");
 
         // Paginating
         return await Dish
@@ -41,6 +44,10 @@ export default class Search {
             // })
             .paginate(page, limit);
     };
+
+    public async fetchByid({ params }: HttpContextContract){
+        return await Dish.findOrFail(params.id);
+    }
 
     public async searchByName({ request }: HttpContextContract){
         const name = request.qs().name;

@@ -1,5 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Database from '@ioc:Adonis/Lucid/Database';
+import ActionForbiddenException from 'App/Exceptions/Auth/ActionForbiddenException';
 import ProvidedDishIsNotIngredientException from 'App/Exceptions/Dishes/Recipe/ProvidedDishIsNotIngredientException';
 import DishModel from 'App/Models/Dish';
 import DishCategory from 'App/Models/DishCategory';
@@ -53,6 +54,7 @@ export default class Dish {
         for (const originalStep of payload.recipeSteps) {
             const step = new RecipeStep();
             step.useTransaction(trx);
+            const stepProducts: Array<RecipeStepProduct> = [];
 
             activeTime += originalStep.activeTime;
             passiveTime += originalStep.passiveTime;
@@ -79,10 +81,14 @@ export default class Dish {
 
                 ingredient.fill({
                     ...originalIngredient,
+                    recipeStepId: step.id
                 });
 
                 ingredients.add(ingredient.productIngredient ?? ingredient.dishIngredient);
+                stepProducts.push(ingredient);
             };
+
+            await step.related('ingredients').saveMany(stepProducts);
 
             // Pushing our step to array and saving it
             steps.push(step);
@@ -98,6 +104,17 @@ export default class Dish {
         await dish.related('recipeSteps').saveMany(steps);
         
         await trx.commit();
+        return dish.toJSON();
+    }
+
+    public async deleteById({params, auth}: HttpContextContract){
+        const dish = await DishModel.findOrFail(params.id);
+
+        if (dish.authorId !== auth.user!.id) {
+            throw new ActionForbiddenException('You are not the author of this dish');
+        };
+
+        await dish.delete();
         return dish.toJSON();
     }
 }

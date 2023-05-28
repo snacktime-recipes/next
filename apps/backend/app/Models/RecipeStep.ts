@@ -27,11 +27,6 @@ export default class RecipeStep extends BaseModel {
   @column()
   public dishId?: number;
 
-  @hasMany(() => RecipeStepProduct, {
-    onQuery(query) {
-      query.preload('dishIngredient');
-      query.preload('productIngredient');
-    }
-  })
+  @hasMany(() => RecipeStepProduct)
   public ingredients: HasMany<typeof RecipeStepProduct>
 }
