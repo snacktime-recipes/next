@@ -46,10 +46,13 @@ export default class Product {
     | middlewares: AuthMiddleware
     | returns: ProductModel
     */
-    public async updateById({ request, params }: HttpContextContract){
+    public async updateById({ request, params, auth }: HttpContextContract){
         const payload = await request.validate(UpdateProductValidator);
         const product = await ProductModel.findOrFail(params.id);
         
+        // Checking if this product is authored by authorized user
+        if (auth.user!.id !== product.id) throw new ActionForbiddenException('You are not the author of this product');
+
         product.name = payload.name ?? product.name;
         product.description = payload.description ?? product.description;
         product.isPublic = payload.isPublic ?? product.isPublic;
@@ -75,9 +78,7 @@ export default class Product {
         const product = await ProductModel.findOrFail(params.id);
 
         // Checking if current user is the author of this product
-        if (product.authorId !== auth.user!.id) {
-            throw new ActionForbiddenException('You are not the author of this product');
-        };
+        if (product.authorId !== auth.user!.id) throw new ActionForbiddenException('You are not the author of this product');
 
         await product.delete();
         return product.toJSON();
