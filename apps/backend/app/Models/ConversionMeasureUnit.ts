@@ -10,16 +10,15 @@ export default class ConversionMeasureUnit extends BaseModel {
 
   // --------------------------------------------------------------------------
   // Relationships
-  @belongsTo(() => MeasureUnit, {foreignKey: "measureUnitFromId"})
+  @belongsTo(() => MeasureUnit)
   public measureUnitFrom: BelongsTo<typeof MeasureUnit>
   
   @column()
-  public measureUnitFromId
+  public measureUnitFromId: number
 
-  @belongsTo(() => MeasureUnit, {foreignKey: "measureUnitToId"})
+  @belongsTo(() => MeasureUnit)
   public measureUnitTo: BelongsTo<typeof MeasureUnit>
 
   @column()
-  public measureUnitToId
-
+  public measureUnitToId: number
 }
