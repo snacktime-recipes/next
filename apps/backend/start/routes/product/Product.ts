@@ -2,9 +2,9 @@ import Route from '@ioc:Adonis/Core/Route'
 
 export default Route
     .group(() => {
+        Route.get('/search', 'ProductsControllers/Search.search').middleware('silentAuth');
         Route.get('/:id', 'ProductsControllers/Search.fetchById').middleware('silentAuth');
         Route.get('', 'ProductsControllers/Search.paginate').middleware('silentAuth');
-        Route.get('/search', 'ProductsControllers/Search.search').middleware('silentAuth');
         
         Route.post('', 'ProductsControllers/Product.create').middleware('auth');
         Route.patch('/:id', 'ProductsControllers/Product.updateById').middleware('auth')
