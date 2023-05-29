@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Profile from './Profile'
+import ProductDishDocument from './ProductDishDocument'
 
 export default class Document extends BaseModel {
   @column({ isPrimary: true })
@@ -20,6 +21,12 @@ export default class Document extends BaseModel {
 
   @belongsTo(() => Profile)
   public profile: BelongsTo<typeof Profile>
+
+  @column()
+  public profileId: number
+
+  @hasMany(()=> ProductDishDocument)
+  public productDishDocuments: HasMany<typeof ProductDishDocument>
   
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

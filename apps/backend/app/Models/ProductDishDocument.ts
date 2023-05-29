@@ -17,14 +17,26 @@ export default class ProductDishDocument extends BaseModel {
   @belongsTo(() => MeasureUnit)
   public measureUnit: BelongsTo<typeof MeasureUnit>
 
+  @column()
+  measureUnitId: number
+
   @belongsTo(() => Document)
   public document: BelongsTo<typeof Document>
+
+  @column()
+  public documentId: number
 
   @belongsTo(() => Product)
   public product: BelongsTo<typeof Product>
 
+  @column()
+  public productId: number
+
   @belongsTo(() => Dish)
   public dish: BelongsTo<typeof Dish>
+
+  @column()
+  public dishId: number
 
   //
   // ctrl + c & ctrl + v from RecipeStepProduct.ts
