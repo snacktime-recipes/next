@@ -14,11 +14,13 @@ export default class ProductDishDocument extends BaseModel {
   @column()
   public isProduct: boolean
 
+  // --------------------------------------------------------------------------
+  // Relationships
   @belongsTo(() => MeasureUnit)
   public measureUnit: BelongsTo<typeof MeasureUnit>
 
   @column()
-  measureUnitId: number
+  public measureUnitId: number
 
   @belongsTo(() => Document)
   public document: BelongsTo<typeof Document>
@@ -30,13 +32,13 @@ export default class ProductDishDocument extends BaseModel {
   public product: BelongsTo<typeof Product>
 
   @column()
-  public productId: number
+  public productId?: number
 
   @belongsTo(() => Dish)
   public dish: BelongsTo<typeof Dish>
 
   @column()
-  public dishId: number
+  public dishId?: number
 
   //
   // ctrl + c & ctrl + v from RecipeStepProduct.ts

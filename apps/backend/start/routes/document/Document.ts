@@ -7,4 +7,4 @@ export default Route
         Route.get('/:id', 'DocumentsControllers/Search.fetchById').middleware('auth');
         // @todo Route.post('/search', 'DocumentsControllers/Search.search');
     })
-    .prefix('/documents');
+    .prefix('/profile/documents');

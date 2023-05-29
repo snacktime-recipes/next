@@ -1,5 +1,6 @@
 import { schema, CustomMessages, rules } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import DocumentType from 'App/Types/Document/DocumentType'
 
 export default class CreateDocumentValidator {
   constructor(protected ctx: HttpContextContract) {}
@@ -23,10 +24,10 @@ export default class CreateDocumentValidator {
    *     ])
    *    ```
    */
-  public productsDishesDocumentSchema = schema.object().members({
+  public productOrDishDocumentsSchema = schema.object().members({
     isProduct: schema.boolean(),
     count: schema.number([
-      rules.range(0, 25),
+      rules.range(0, Number.MAX_VALUE),
     ]),
     measureUnitId: schema.number([
       rules.exists({
@@ -49,10 +50,10 @@ export default class CreateDocumentValidator {
   })
 
   public schema = schema.create({
-    type: schema.string([]),
+    type: schema.enum(Object.values(DocumentType)),
     number: schema.number(),
     description: schema.string.optional(),
-    productDishDocuments: schema.array().members(this.productsDishesDocumentSchema)
+    documents: schema.array().members(this.productOrDishDocumentsSchema)
   })
 
   /**
