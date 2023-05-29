@@ -17,20 +17,23 @@ export default class MeasureUnit extends BaseModel {
 
   // --------------------------------------------------------------------------
   // Hooks
-  @beforeFind()
-  public static async preloadConversionsSingle(query: ModelQueryBuilderContract<typeof MeasureUnit>) {
-    await query.preload('conversionMeasureUnits');
-  };
+  // @beforeFind()
+  // public static async preloadConversionsSingle(query: ModelQueryBuilderContract<typeof MeasureUnit>) {
+  //   await query.preload('conversionMeasureUnits');
+  // };
 
-  @beforeFetch()
-  public static async preloadConversionsMultiple(query: ModelQueryBuilderContract<typeof MeasureUnit>) {
-    await query.preload('conversionMeasureUnits');
-  };
+  // @beforeFetch()
+  // public static async preloadConversionsMultiple(query: ModelQueryBuilderContract<typeof MeasureUnit>) {
+  //   await query.preload('conversionMeasureUnits');
+  // };
 
-  @beforePaginate()
-  public static async preloadConversionsPaginate(query: ModelQueryBuilderContract<typeof MeasureUnit>) {
-    //await query.preload('conversionMeasureUnits');
-  };
+  // @beforePaginate()
+  // public static async preloadConversionsPaginate([
+  //   _,
+  //   query,
+  // ]: [ModelQueryBuilderContract<typeof MeasureUnit>, ModelQueryBuilderContract<typeof MeasureUnit>]) {
+  //   await query.preload('conversionMeasureUnits');
+  // };
 
   @afterSave()
   public static async conversionRelations(){
