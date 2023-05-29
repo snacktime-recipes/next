@@ -7,6 +7,8 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
 
+      table.double('coefficient').notNullable()
+
       table
         .integer('measure_unit_from_id')
         .unsigned()
@@ -19,8 +21,6 @@ export default class extends BaseSchema {
         .references('measure_units.id')
         .onDelete('CASCADE')
 
-      table.timestamp('created_at', { useTz: true }).notNullable()
-      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

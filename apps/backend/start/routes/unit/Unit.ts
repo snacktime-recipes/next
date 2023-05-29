@@ -2,9 +2,10 @@ import Route from '@ioc:Adonis/Core/Route'
 
 export default Route
     .group(() => {
-        // @todo Route.get('', 'UnitsController/Search.paginate');
-        // @todo Route.get('/:id', 'UnitsController/Search.fetchById');
+        Route.post('', 'UnitsControllers/Unit.create').middleware("internalAuth")
+        Route.get('', 'UnitsControllers/Search.paginate');
+        Route.get('/:id', 'UnitsControllers/Search.fetchById');
+        Route.get('/:fromMeasure/:toMeasure?count=2', 'UnitsControllers/Conversions.convert');
         // @todo Route.post('/search', 'UnitsController/Search.search');
-        // @todo Route.get('/:fromMeasure/:toMeasure?count=2', 'UnitsController/Conversions.convert');
     })
     .prefix('/units');
